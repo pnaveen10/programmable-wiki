@@ -28,7 +28,26 @@ export default class EditMode extends React.Component {
         };
         this.updateState = this.updateState.bind(this);
         this.validateState = this.validateState.bind(this);
+        this.getInfo = this.getInfo.bind(this);
     }
+
+    componentDidMount() {
+        this.getInfo(this.props.pageId);
+    }
+
+    getInfo(page_id) {
+        var root = 'http://10.29.244.95:3001';
+
+        $.ajax({
+          url: root + '/edit_page/' +page_id,
+          method: 'GET',
+          success: function(data) {
+            this.setState({editContent : data})
+          }.bind(this)
+        }
+      );
+    }
+
     updateState(e) {
         var fieldName = e.target.name;
         var value = e.target.value;
@@ -53,7 +72,6 @@ export default class EditMode extends React.Component {
     }
 
     validateState(event) {
-      console.log("Submit Clicked");
       event.preventDefault();
       var formState = this.state.editContent;
 
@@ -62,12 +80,10 @@ export default class EditMode extends React.Component {
         xhr.open('post', 'http://10.29.244.95:3001/save_or_edit', true);
         xhr.setRequestHeader('Content-type', 'application/json');
         xhr.onload = function () {
-          console.log(this.responseText);
         };
         xhr.send(JSON.stringify({id:'', form_data:{title: formState.title, desc:formState.description, code:formState.code, type: formState.type}}));
       }
       else {
-          console.log("Issue found");
       }
     }
 

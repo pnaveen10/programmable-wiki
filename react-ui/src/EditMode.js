@@ -39,7 +39,7 @@ export default class EditMode extends React.Component {
           url: root + '/edit_page/' +page_id,
           method: 'GET',
           success: function(data) {
-            this.setState({editContent : data})
+            this.setState({editContent : JSON.parse(data)})
           }.bind(this)
         }
       );

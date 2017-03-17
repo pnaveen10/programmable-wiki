@@ -7,7 +7,9 @@ export default class ViewMode extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          compiledOutput : ''
+          compiledOutput : '',
+          pageTitle : '',
+          pageDesc : ''
         }
         this.renderCompiledOutput = this.renderCompiledOutput.bind(this);
   }
@@ -34,7 +36,7 @@ export default class ViewMode extends React.Component {
     render() {
       return (
     <div className = "medium-6">
-			<h2> Title </h2>
+			<h2> {this.state.pageTitle} </h2>
 			{ this.state.compiledOutput }
 			<div>
 				<button className="btn btn-primary" type="button" onClick={this.props.toggleMode}> Edit </button>

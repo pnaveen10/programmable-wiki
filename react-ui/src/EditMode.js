@@ -5,14 +5,10 @@ import './App.css';
 import $ from "jquery";
 
 import 'brace/mode/python';
+import 'brace/mode/perl';
 import 'brace/mode/html';
 import 'brace/mode/markdown';
-import 'brace/mode/python';
 import 'brace/theme/terminal';
-
-function onChange(newValue) {
-  console.log('change',newValue);
-}
 
 export default class EditMode extends React.Component {
 
@@ -115,6 +111,9 @@ export default class EditMode extends React.Component {
 						<div className="col-sm-10">
 							<select className="form-control"  name="type" value={this.state.editContent.type} onChange={this.updateState}>
 								<option value="text">Plain text</option>
+                                <option value="html">HTML</option>
+                                <option value="python">Python</option>
+                                <option value="perl">Perl</option>
 							</select>
 						</div>
 					</div>
@@ -122,7 +121,7 @@ export default class EditMode extends React.Component {
 						<label className="control-label col-sm-2">Code</label>
 						<div className="col-sm-10">
 							<AceEditor
-                                mode="python"
+                                mode={this.state.editContent.type}
                                 theme="terminal"
                                 style={style}
                                 name="UNIQUE_ID_OF_DIV"

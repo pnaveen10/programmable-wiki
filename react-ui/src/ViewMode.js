@@ -41,7 +41,7 @@ export default class ViewMode extends React.Component {
     // }
     render() {
       return (
-        <div className = "medium-6">
+        <div>
 			<h2>Title</h2>
 			Code goes here
 			<div>

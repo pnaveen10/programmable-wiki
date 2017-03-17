@@ -22,9 +22,22 @@ a:hover {
 .navbar-nav li a:hover {
 	background-color: #45494f;
 }
+.nav-stacked li a,.nav-stacked li a:hover, .navbar {
+	border-radius: 0px;
+}
+.nav-stacked li a:hover {
+	background-color: #45494f;
+}
+.sidebar.col-sm-3 {
+	padding-left: 0px;
+	padding-right: 0px;
+}
 /*New styles*/
 .sidebar {
 	background-color: #DDD;
+}
+.sidebar h4 {
+	padding-left: 15px;
 }
 .navbar {
 	background-color: #6d9ce8;
@@ -34,4 +47,7 @@ a:hover {
 }
 .maincol h2 {
 	margin-top: 0px;
+}
+.input-group {
+	padding: 10px;
 }

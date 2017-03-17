@@ -84,6 +84,23 @@ app.get('/getDb', (req, res) => {
 
 })
 
+app.get('/get_details/:id', function(req,res){
+	var client = new pg.Client(conString);
+	var id = req.params.id;
+	client.connect(function(err) {
+		if(err) {
+			console.log(err);
+		}
+		var sql_query = "select title,description from wiki_master where id = '" +id+"'"
+		client.query(sql_query, function(err, result) {
+			if(err){
+				console.log(err);
+			}
+			res.send(JSON.stringify(result.rows[0]))
+		})
+	})
+})
+
 app.get('/view_page/:id', function(req, res) {
     var id = req.params.id;
     var client = new pg.Client(conString);
@@ -147,7 +164,7 @@ app.get('/edit_page/:id', function(req, res) {
 			if(err){
 				 console.log(err);
 			}
-			res.send(JSON.stringify(result.rows))
+			res.end(JSON.stringify(result.rows[0]))
 		})
 	})
 

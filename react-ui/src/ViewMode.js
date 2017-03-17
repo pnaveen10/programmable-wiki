@@ -13,11 +13,16 @@ export default class ViewMode extends React.Component {
         }
         this.renderCompiledOutput = this.renderCompiledOutput.bind(this);
         this.renderTitleAndDescription = this.renderTitleAndDescription.bind(this);
+        this.addNewPage = this.addNewPage.bind(this);
     }
 
     componentDidMount() {
         this.renderCompiledOutput(this.props.pageId);
         this.renderTitleAndDescription(this.props.pageId);
+    }
+
+    addNewPage() {
+        this.context.router.push('/page/newpage');
     }
 
     renderTitleAndDescription(page_id) {
@@ -51,13 +56,17 @@ export default class ViewMode extends React.Component {
       return (
     <div className = "medium-6">
 			<h2> {this.state.pageTitle} </h2>
-      <h4> {this.state.pageDesc} </h4>
-			{ this.state.compiledOutput }
+            <h4> {this.state.pageDesc} </h4>
+			<div dangerouslySetInnerHTML={{__html: this.state.compiledOutput }}></div>
 			<div>
 				<button className="btn btn-primary" type="button" onClick={this.props.toggleMode}> Edit </button>
-				<button className="btn btn-primary" type="button" onClick={this.testAPI}> Add page </button>
+				<button className="btn btn-primary" type="button" onClick={this.addNewPage}> Add page </button>
 			</div>
     </div>
       );
     }
+}
+
+ViewMode.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }

@@ -9,16 +9,23 @@ export default class Page extends React.Component {
             editMode: false
         };
         this.toggleMode = this.toggleMode.bind(this);
+        this.createNewPage = this.createNewPage.bind(this);
     }
-    toggleMode() {
-        var e = this.state.editMode;
-        this.setState({ editMode: !e });
+    toggleMode(value) {
+        this.setState({ editMode: value });
+    }
+    createNewPage() {
+        this.setState({
+            editMode: true,
+            type: 'new'
+        });
     }
     render() {
+        console.log(this.props.params.pageId);
 		return (
 			<div>
-                {this.state.editMode
-                    ? <EditMode pageId={this.props.params.pageId} toggleMode={this.toggleMode}/>
+                {this.state.editMode || this.props.params.pageId == 'newpage'
+                    ? <EditMode pageId={this.props.params.pageId} toggleMode={this.toggleMode} type={this.state.type}/>
                     : <ViewMode pageId={this.props.params.pageId} toggleMode={this.toggleMode}/>
                 }
             </div>

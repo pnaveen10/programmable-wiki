@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import brace from 'brace';
 import AceEditor from 'react-ace';
+import { hashHistory, Router, Route, IndexRoute } from 'react-router';
 import './App.css';
 import $ from "jquery";
 
@@ -11,7 +12,6 @@ import 'brace/mode/markdown';
 import 'brace/theme/terminal';
 
 export default class EditMode extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -26,10 +26,17 @@ export default class EditMode extends React.Component {
         this.validateState = this.validateState.bind(this);
         this.getInfo = this.getInfo.bind(this);
         this.textAreaChange = this.textAreaChange.bind(this);
+        this.toggleMode = this.toggleMode.bind(this);
+    }
+
+    toggleMode() {
+        this.props.toggleMode(false);
     }
 
     componentDidMount() {
-        this.getInfo(this.props.pageId);
+        if (this.props.pageId != 'newpage') {
+            this.getInfo(this.props.pageId);
+        }
     }
 
     getInfo(page_id) {
@@ -81,7 +88,14 @@ export default class EditMode extends React.Component {
         xhr.setRequestHeader('Content-type', 'application/json');
         xhr.onload = function () {
         };
-        xhr.send(JSON.stringify({id: this.props.pageId, form_data:{title: formState.title, desc:formState.description, code:formState.code, type: formState.type}}));
+        xhr.send(JSON.stringify({id: (this.props.pageId != 'newpage' ? this.props.pageId : ''), parent_id: '1', form_data:{title: formState.title, desc:formState.description, code:formState.code, type: formState.type}}));
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var respOut = JSON.parse(xhr.responseText);
+                this.props.toggleMode(false);
+                this.context.router.push('/page/'+respOut.id);
+            }
+        }.bind(this);
       }
       else {
       }
@@ -140,11 +154,15 @@ export default class EditMode extends React.Component {
 					</div>
 					<div className="form-group">
 						<div className="col-sm-offset-2 col-sm-10">
-							<button className="btn btn-default" type="button" onClick={this.props.toggleMode}> Go back </button>
+							<button className="btn btn-default" type="button" onClick={this.toggleMode}> Go back </button>
 						</div>
 					</div>
 				</form>
 			</div>
 		);
     }
+}
+
+EditMode.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }

@@ -9,7 +9,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<NavBar username="Username"/>
+				<NavBar username="Naveen"/>
 				<MainGrid>{this.props.children}</MainGrid>
 			</div>
 		);

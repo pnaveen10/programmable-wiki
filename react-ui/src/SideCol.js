@@ -8,7 +8,7 @@ export default class SideCol extends React.Component {
 	render() {
 		return (
 			<div className="col-sm-3 sidebar textleft" style={this.props.style}>
-				<h4 className="textleft">Side Pane</h4>
+				<h4 className="textleft">Page Tree</h4>
 				<div className="input-group textleft">
 					<input type="text" className="form-control" placeholder="Search Pages.."/>
 					<span className="input-group-btn">

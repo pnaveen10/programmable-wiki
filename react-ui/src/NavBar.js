@@ -12,8 +12,8 @@ export default class NavBar extends React.Component {
 					</div>
 					<ul className="nav navbar-nav">
 						<li className="active"><a href="#">Home</a></li>
-						<li><a href="#">Page 1</a></li>
-						<li><a href="#">Page 2</a></li>
+						<li><a href="#">Preferences</a></li>
+						<li><a href="#">Help</a></li>
 					</ul>
 					<ul className="nav navbar-nav navbar-right">
 						<li><a href="#"><span className="glyphicon glyphicon-user"></span> {this.props.username}</a></li>

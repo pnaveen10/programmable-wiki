@@ -99,7 +99,6 @@ app.get('/view_page/:id', function(req, res) {
 			}
 			var code_to_be = result.rows[0].code;
 			var type_to_be = result.rows[0].type;
-			console.log("code_to_be" +type_to_be)
 			if(type_to_be == "python"){
 				var tempFileName = "tempPythonFile" + (new Date).getTime() + ".py";
 				fs.writeFile(tempFileName, code_to_be, function(err) {
@@ -136,44 +135,23 @@ app.get('/view_page/:id', function(req, res) {
 	})
 });
 
+app.get('/edit_page/:id', function(req, res) {
+    var id = req.params.id;
+	var client = new pg.Client(conString);
+	client.connect(function(err) {
+		if(err) {
+			console.log(err);
+		}
+		var sql_query = "select title, description, code, type from wiki_master where id ="+id+""
+		client.query(sql_query, function(err, result) {
+			if(err){
+				 console.log(err);
+			}
+			res.send(JSON.stringify(result.rows))
+		})
+	})
 
-
-
-
-
-// app.get('/view_perl/:id', function(req, res) {
-//     var id = req.params.id;
-//     var client = new pg.Client(conString);
-// 	client.connect(function(err) {
-// 		if(err) {
-// 			console.log(err);
-// 		}
-// 		var sql_query = "select code from wiki_master where id = '" +id+"'"
-// 		client.query(sql_query, function(err, result) {
-// 			if(err){
-// 				console.log(err);
-// 				res.end("error on fetching code for the particular id")
-// 			}
-// 			var code_to_be = result.rows[0].code;
-// 			console.log("code_to_be" +code_to_be)
-// 			var tempFileName = "tempPerlFile" + (new Date).getTime() + ".pl";
-// 			fs.writeFile(tempFileName, code_to_be, function(err) {
-// 				if(err) {
-// 					console.log(err);
-// 					res.render('error', {error: err});
-// 				}
-// 			})
-
-// 			var child = exec("perl " + tempFileName, function(error, stdout, stderr) {
-// 				console.log(stdout);
-// 				console.log(stderr);
-// 				res.end(stdout);
-// 			});
-// 		})
-
-// 	})
-// });
-
+})
 
 
 

@@ -8,7 +8,7 @@ export default class NavBar extends React.Component {
 			<nav className="navbar">
 				<div className="container-fluid">
 					<div className="navbar-header">
-						<a className="navbar-brand" href="#">Programable WIKI</a>
+						<a className="navbar-brand" href="#">Programmable WIKI</a>
 					</div>
 					<ul className="nav navbar-nav">
 						<li className="active"><a href="#">Home</a></li>

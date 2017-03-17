@@ -7,7 +7,7 @@ import $ from "jquery";
 import 'brace/mode/python';
 import 'brace/mode/html';
 import 'brace/mode/markdown';
-import 'brace/mode/python';	
+import 'brace/mode/python';
 import 'brace/theme/terminal';
 
 function onChange(newValue) {
@@ -29,6 +29,7 @@ export default class EditMode extends React.Component {
         this.updateState = this.updateState.bind(this);
         this.validateState = this.validateState.bind(this);
         this.getInfo = this.getInfo.bind(this);
+        this.textAreaChange = this.textAreaChange.bind(this);
     }
 
     componentDidMount() {
@@ -63,11 +64,14 @@ export default class EditMode extends React.Component {
             case "type":
                 newLocalState.type = value;
                 break;
-            case "code":
-                newLocalState.code = value;
-                break;
         }
 
+        this.setState({editContent : newLocalState});
+    }
+
+    textAreaChange(codeText) {
+        var newLocalState = this.state.editContent;
+        newLocalState.code = codeText;
         this.setState({editContent : newLocalState});
     }
 
@@ -117,7 +121,15 @@ export default class EditMode extends React.Component {
 					<div className="form-group">
 						<label className="control-label col-sm-2">Code</label>
 						<div className="col-sm-10">
-							<AceEditor mode="python" name="code" theme="terminal" style={style} name="UNIQUE_ID_OF_DIV" editorProps={{$blockScrolling: true}} />
+							<AceEditor
+                                mode="python"
+                                theme="terminal"
+                                style={style}
+                                name="UNIQUE_ID_OF_DIV"
+                                editorProps={{$blockScrolling: true}}
+                                value={this.state.editContent.code}
+                                onChange={this.textAreaChange}
+                             />
 						</div>
 					</div>
 					<div className="form-group">

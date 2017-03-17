@@ -4,25 +4,22 @@ import {Treebeard} from 'react-treebeard';
 
 const data = {
     name: 'root',
-    toggled: true,
     children: [
         {
-            name: 'parent',
+            name: 'parent with child',
             children: [
                 { name: 'child1' },
                 { name: 'child2' }
             ]
         },
         {
-            name: 'loading parent',
-            loading: true,
-            children: []
+            name: 'parent with out child'
         },
         {
-            name: 'parent',
+            name: 'parent with child',
             children: [
                 {
-                    name: 'nested parent',
+                    name: 'child with child',
                     children: [
                         { name: 'nested child 1' },
                         { name: 'nested child 2' }

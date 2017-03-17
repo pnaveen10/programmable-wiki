@@ -4,9 +4,6 @@ body {
   font-family: sans-serif;
 }
 /*Override styles*/
-.sidebar {
-    
-}
 .container {
 	width: auto;
 }
@@ -31,4 +28,10 @@ a:hover {
 }
 .navbar {
 	background-color: #6d9ce8;
+}
+.maincol {
+	margin-top: 20px;
+}
+.maincol h2 {
+	margin-top: 0px;
 }

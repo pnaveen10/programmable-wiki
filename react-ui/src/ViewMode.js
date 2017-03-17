@@ -42,12 +42,12 @@ export default class ViewMode extends React.Component {
     render() {
       return (
         <div className = "medium-6">
-            <label> Title </label>
-            <div>
-                Code goes here
-            </div>
-            <button className="btn" type="button" onClick={this.props.toggleMode}> Edit </button>
-            <button className="btn" type="button" onClick={this.testAPI}> Add page </button>
+			<h2>Title</h2>
+			Code goes here
+			<div>
+				<button className="btn btn-primary" type="button" onClick={this.props.toggleMode}> Edit </button>
+				<button className="btn btn-primary" type="button" onClick={this.testAPI}> Add page </button>
+			</div>
         </div>
       );
     }

@@ -18,7 +18,7 @@ export default class MainCol extends React.Component {
     }
 	render() {
 		return (
-			<div className="col-md-9 textleft">
+			<div className="col-md-9 textleft maincol">
 				{this.state.editMode
                     ? <EditMode toggleMode={this.toggleMode}/>
                     : <ViewMode toggleMode={this.toggleMode}/>

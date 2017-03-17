@@ -81,7 +81,7 @@ export default class EditMode extends React.Component {
         xhr.setRequestHeader('Content-type', 'application/json');
         xhr.onload = function () {
         };
-        xhr.send(JSON.stringify({id:'', form_data:{title: formState.title, desc:formState.description, code:formState.code, type: formState.type}}));
+        xhr.send(JSON.stringify({id: this.props.pageId, form_data:{title: formState.title, desc:formState.description, code:formState.code, type: formState.type}}));
       }
       else {
       }

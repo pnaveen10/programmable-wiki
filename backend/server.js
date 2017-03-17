@@ -146,6 +146,9 @@ app.get('/view_page/:id', function(req, res) {
 					res.end(stdout);
 				});
 			}
+			else if (type_to_be == "text" || "html"){
+				res.end(code_to_be);
+			}
 
 		})
 

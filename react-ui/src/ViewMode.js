@@ -6,49 +6,46 @@ export default class ViewMode extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.testAPI = this.testAPI.bind(this);
+        this.state = {
+          compiledOutput : ''
+        }
+        this.renderCompiledOutput = this.renderCompiledOutput.bind(this);
         // this.updateState = this.updateState.bind(this);
     }
-    testAPI() {
-        var root = 'https://jsonplaceholder.typicode.com';
+
+
+    componentDidMount() {
+        console.log("Agh")
+        this.renderCompiledOutput(this.props.pageId);
+    }
+
+
+    renderCompiledOutput(page_id) {
+        var root = 'http://10.29.244.95:3001';
 
         $.ajax({
-          url: root + '/posts/1',
-          method: 'GET'
-        }).then(function(data) {
-          console.log(data);
-        });
+          url: root + '/view_page/' +page_id,
+          method: 'GET',
+          success: function(data) {
+            console.log(data)
+            this.setState({compiledOutput : data})
+            return data;
+          }.bind(this)
+        }
+      );
     }
-    // updateState(e) {
-    //     var fieldName = e.target.name;
-    //     var value = e.target.value;
-    //     var newLocalState = this.state.editContent;
-    //
-    //     switch (fieldName) {
-    //         case "title":
-    //             newLocalState.title = value;
-    //             break;
-    //         case "description":
-    //             newLocalState.description = value;
-    //             break;
-    //         case "type":
-    //             newLocalState.type = value;
-    //             break;
-    //     }
-    //
-    //     this.setState({editContent : newLocalState});
-    // }
+
     render() {
       return (
-        <div>
-			<h2>Title</h2>
-			Code goes here
+    <div className = "medium-6">
+			<h2> Title </h2>
+      { console.log(this.props.pageId )}
+			{ this.state.compiledOutput }
 			<div>
 				<button className="btn btn-primary" type="button" onClick={this.props.toggleMode}> Edit </button>
 				<button className="btn btn-primary" type="button" onClick={this.testAPI}> Add page </button>
 			</div>
-        </div>
+    </div>
       );
     }
 }

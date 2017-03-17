@@ -10,10 +10,12 @@ export default class EditMode extends React.Component {
             editContent: {
                 title: '',
                 description: '',
-                type: 'text'
+                type: 'text',
+                code: ''
             }
         };
         this.updateState = this.updateState.bind(this);
+        this.validateState = this.validateState.bind(this);
     }
     updateState(e) {
         var fieldName = e.target.name;
@@ -24,7 +26,7 @@ export default class EditMode extends React.Component {
             case "title":
                 newLocalState.title = value;
                 break;
-            case "description":
+            case "desc":
                 newLocalState.description = value;
                 break;
             case "type":
@@ -37,10 +39,30 @@ export default class EditMode extends React.Component {
 
         this.setState({editContent : newLocalState});
     }
+
+    validateState(event) {
+      console.log("Submit Clicked");
+      event.preventDefault();
+      var formState = this.state.editContent;
+
+      if(formState.title && formState.description && formState.type && formState.code ) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', 'http://10.29.244.95:3001/save_or_edit', true);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.onload = function () {
+          console.log(this.responseText);
+        };
+        xhr.send(JSON.stringify({id:'', form_data:{title: formState.title, desc:formState.description, code:formState.code, type: formState.type}}));
+      }
+      else {
+          console.log("Issue found");
+      }
+    }
+
     render() {
       return (
-        <div>
-			<form className="form-horizontal">
+    <div>
+			<form onSubmit={this.validateState} className="form-horizontal">
 				<div className="form-group">
 					<label className="control-label col-sm-2"> Title </label>
 					<div className="col-sm-10">
@@ -50,7 +72,7 @@ export default class EditMode extends React.Component {
 				<div className="form-group">
 					<label className="control-label col-sm-2"> Description </label>
 					<div className="col-sm-10">
-						<input className="form-control" placeholder="Description about page" type="text" name="description" value={this.state.editContent.description} onChange={this.updateState}/>
+						<input className="form-control" placeholder="Description about page" type="text" name="desc" value={this.state.editContent.description} onChange={this.updateState}/>
 					</div>
 				</div>
 				<div className="form-group">
@@ -67,13 +89,18 @@ export default class EditMode extends React.Component {
 						<textarea className="form-control"  name="code" rows="10" cols="100" value={this.state.editContent.code} onChange={this.updateState}></textarea>
 					</div>
 				</div>
+        <div className="form-group">
+					<div className="col-sm-offset-2 col-sm-10">
+            <input className="btn btn-default" type="submit" className="btn" />
+					</div>
+				</div>
 				<div className="form-group">
 					<div className="col-sm-offset-2 col-sm-10">
 						<button className="btn btn-default" type="button" onClick={this.props.toggleMode}> Go back </button>
 					</div>
 				</div>
 			</form>
-        </div>
+    </div>
       );
     }
 }

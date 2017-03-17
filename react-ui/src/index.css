@@ -3,3 +3,32 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+/*Override styles*/
+.sidebar {
+    
+}
+.container {
+	width: auto;
+}
+.navbar {
+	margin-bottom: 0px;
+}
+.textleft {
+	text-align: left;
+}
+a {
+	color: #181e28;
+}
+a:hover {
+	color: #f9f9f9;
+}
+.navbar-nav li a:hover {
+	background-color: #45494f;
+}
+/*New styles*/
+.sidebar {
+	background-color: #DDD;
+}
+.navbar {
+	background-color: #6d9ce8;
+}

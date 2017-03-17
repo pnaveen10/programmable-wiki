@@ -10,7 +10,7 @@ export default class MainGrid extends React.Component {
 			<div className="container">
 				<div className="row">
 					<SideCol/>
-					<MainCol/>
+					<MainCol>{this.props.children}</MainCol>
 				</div>
 			</div>
 		)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import $ from "jquery";
+import { Link } from 'react-router';
 
 export default class SideCol extends React.Component {
 	render() {
@@ -8,7 +9,8 @@ export default class SideCol extends React.Component {
 			<div className="col-sm-3 sidebar">
 				<h4 className="textleft">Side Pane</h4>
 				<ul className="nav nav-pills nav-stacked textleft">
-					<li className="active"><a href="#section1">Page 1</a></li>
+					<li className="active"><Link to="page">Page 1</Link></li>
+					<li><Link to="test">Test</Link></li>
 					<li><a href="#section2">Page 2</a></li>
 					<li><a href="#section3">Page 3</a></li>
 					<li><a href="#section3">Page 4</a></li>

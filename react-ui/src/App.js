@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import $ from "jquery";
+import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
 import NavBar from './NavBar';
 import MainGrid from './MainGrid';
 
@@ -9,7 +10,7 @@ class App extends Component {
 		return (
 			<div className="App">
 				<NavBar username="Username"/>
-				<MainGrid/>
+				<MainGrid>{this.props.children}</MainGrid>
 			</div>
 		);
 	}

@@ -126,6 +126,8 @@ export default class EditMode extends React.Component {
                                 theme="terminal"
                                 style={style}
                                 name="UNIQUE_ID_OF_DIV"
+								enableBasicAutocompletion="true"
+								enableLiveAutocompletion="true"
                                 editorProps={{$blockScrolling: true}}
                                 value={this.state.editContent.code}
                                 onChange={this.textAreaChange}

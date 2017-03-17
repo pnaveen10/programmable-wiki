@@ -42,7 +42,7 @@ export default class SideCol extends React.Component {
 				<h4 className="textleft">Side Pane</h4>
 				
 				<ul className="nav nav-pills nav-stacked textleft">
-					<li className="active"><Link to="page">Page 1</Link></li>
+					<li className="active"><Link to="page/20">Page 1</Link></li>
 					<li><Link to="test">Test</Link></li>
 					<li><a href="#section2">Page 2</a></li>
 					<li><a href="#section3">Page 3</a></li>

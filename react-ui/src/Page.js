@@ -18,8 +18,8 @@ export default class Page extends React.Component {
 		return (
 			<div>
                 {this.state.editMode
-                    ? <EditMode toggleMode={this.toggleMode}/>
-                    : <ViewMode toggleMode={this.toggleMode}/>
+                    ? <EditMode pageId={this.props.params.pageId} toggleMode={this.toggleMode}/>
+                    : <ViewMode pageId={this.props.params.pageId} toggleMode={this.toggleMode}/>
                 }
             </div>
         );

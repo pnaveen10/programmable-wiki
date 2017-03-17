@@ -1,25 +1,25 @@
 "# programmable-wiki"
 
 # Clone
-git clone https://github.com/pnaveen10/programmable-wiki.git
+`git clone https://github.com/pnaveen10/programmable-wiki.git`
 
 # React setup
-cd programmable-wiki\react-ui
+`cd programmable-wiki\react-ui`
 
-npm install
+`npm install`
 
 # React dev build
-Programmable-wiki\react-ui\node_modules\.bin\webpack -dw
+`Programmable-wiki\react-ui\node_modules\.bin\webpack -dw`
 
 # React prod build
-npm run build
+`npm run build`
 
 # Node setup
-cd programmable-wiki\backend
+`cd programmable-wiki\backend`
 
-npm install
+`npm install`
 
 # Start node server
-cd programmable-wiki\backend
+`cd programmable-wiki\backend`
 
-node server.js
+`node server.js`

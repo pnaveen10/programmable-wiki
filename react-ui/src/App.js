@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import $ from "jquery";
+require('bootstrap');
 
 class App extends Component {
   render() {

@@ -38,7 +38,7 @@ const data = {
 export default class SideCol extends React.Component {
 	render() {
 		return (
-			<div className="col-sm-3 sidebar">
+			<div className="col-sm-3 sidebar" style={this.props.style}>
 				<h4 className="textleft">Side Pane</h4>
 				
 				<ul className="nav nav-pills nav-stacked textleft">

@@ -54,16 +54,16 @@ export default class ViewMode extends React.Component {
 
     render() {
       return (
-    <div className = "medium-6">
-			<h2> {this.state.pageTitle} </h2>
-            <h4> {this.state.pageDesc} </h4>
-			<div dangerouslySetInnerHTML={{__html: this.state.compiledOutput }}></div>
-			<div>
-				<button className="btn btn-primary" type="button" onClick={this.props.toggleMode}> Edit </button>
-				<button className="btn btn-primary" type="button" onClick={this.addNewPage}> Add page </button>
+			<div className = "medium-6">
+				<h2>{this.state.pageTitle}</h2>
+				<p className="text-muted"><i>{this.state.pageDesc}</i></p>>
+				<div dangerouslySetInnerHTML={{__html: this.state.compiledOutput }}></div>
+				<div>
+					<span className="buttongroup"><button className="btn btn-primary" type="button" onClick={this.props.toggleMode}> Edit </button></span>
+					<span className="buttongroup"><button className="btn btn-primary" type="button" onClick={this.addNewPage}> Add page </button></span>
+				</div>
 			</div>
-    </div>
-      );
+		);
     }
 }
 

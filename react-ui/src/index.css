@@ -54,3 +54,9 @@ a:hover {
 .form-horizontal {
 	padding-top: 20px;
 }
+.treeview {
+	padding-left: 20px;
+}
+.buttongroup {
+	padding: 0px 5px;
+}

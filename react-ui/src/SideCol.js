@@ -49,22 +49,17 @@ export default class SideCol extends React.Component {
 	}
 	getInfo() {
         var root = 'http://10.29.244.95:3001';
-//		setTimeout(function() {
-//					this.setState({data: {name:'loaded'}});
-//				}.bind(this),
-//				2000
-//			);
-//		$.ajax({
-//			url: root + '/edit_page/',
-//			method: 'GET',
-//			success: function(data) {
-//				setTimeout(function() {
-//						//this.setState({data : JSON.parse(data)})
-//					},
-//					2000
-//				).bind(this);
-//			}.bind(this)
-//		});
+		$.ajax({
+			url: root + '/get_all_children/',
+			method: 'GET',
+			success: function(data) {
+				//setTimeout(function() {
+						this.setState({data : data})
+				//	},
+				//	2000
+				//).bind(this);
+			}.bind(this)
+		});
     }
 	render() {
 		return (

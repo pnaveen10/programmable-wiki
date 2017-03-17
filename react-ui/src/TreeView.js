@@ -109,12 +109,14 @@ export default class TreeView extends React.Component {
 		}
 
         return (
-            <Treebeard
-                data={this.props.data}
-                onToggle={this.onToggle}
-				style={style}
-				decorators={decorators}
-            />
+			<div className="treeview">
+				<Treebeard
+					data={this.props.data}
+					onToggle={this.onToggle}
+					style={style}
+					decorators={decorators}
+				/>
+			</div>
         );
     }
 }

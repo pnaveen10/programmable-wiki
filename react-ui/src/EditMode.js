@@ -75,47 +75,47 @@ export default class EditMode extends React.Component {
 		var style = {
 			width: "100%"
 		};
-      return (
-    <div>
-			<form onSubmit={this.validateState} className="form-horizontal">
-				<div className="form-group">
-					<label className="control-label col-sm-2"> Title </label>
-					<div className="col-sm-10">
-						<input className="form-control" placeholder="Name of the page" type="text" name="title" value={this.state.editContent.title} onChange={this.updateState}/>
+		return (
+			<div>
+				<form onSubmit={this.validateState} className="form-horizontal">
+					<div className="form-group">
+						<label className="control-label col-sm-2"> Title </label>
+						<div className="col-sm-10">
+							<input className="form-control" placeholder="Name of the page" type="text" name="title" value={this.state.editContent.title} onChange={this.updateState}/>
+						</div>
 					</div>
-				</div>
-				<div className="form-group">
-					<label className="control-label col-sm-2"> Description </label>
-					<div className="col-sm-10">
-						<input className="form-control" placeholder="Description about page" type="text" name="desc" value={this.state.editContent.description} onChange={this.updateState}/>
+					<div className="form-group">
+						<label className="control-label col-sm-2"> Description </label>
+						<div className="col-sm-10">
+							<input className="form-control" placeholder="Description about page" type="text" name="desc" value={this.state.editContent.description} onChange={this.updateState}/>
+						</div>
 					</div>
-				</div>
-				<div className="form-group">
-					<label className="control-label col-sm-2"> Type </label>
-					<div className="col-sm-10">
-						<select className="form-control"  name="type" value={this.state.editContent.type} onChange={this.updateState}>
-							<option value="text">Plain text</option>
-						</select>
+					<div className="form-group">
+						<label className="control-label col-sm-2"> Type </label>
+						<div className="col-sm-10">
+							<select className="form-control"  name="type" value={this.state.editContent.type} onChange={this.updateState}>
+								<option value="text">Plain text</option>
+							</select>
+						</div>
 					</div>
-				</div>
-				<div className="form-group">
-					<label className="control-label col-sm-2">Code</label>
-					<div className="col-sm-10">
-						<AceEditor mode="python" name="code" theme="terminal" style={style} name="UNIQUE_ID_OF_DIV" editorProps={{$blockScrolling: true}} />
+					<div className="form-group">
+						<label className="control-label col-sm-2">Code</label>
+						<div className="col-sm-10">
+							<AceEditor mode="python" name="code" theme="terminal" style={style} name="UNIQUE_ID_OF_DIV" editorProps={{$blockScrolling: true}} />
+						</div>
 					</div>
-				</div>
-        <div className="form-group">
-					<div className="col-sm-offset-2 col-sm-10">
-            <input className="btn btn-default" type="submit" className="btn" />
+					<div className="form-group">
+						<div className="col-sm-offset-2 col-sm-10">
+							<input className="btn btn-default" type="submit" className="btn" />
+						</div>
 					</div>
-				</div>
-				<div className="form-group">
-					<div className="col-sm-offset-2 col-sm-10">
-						<button className="btn btn-default" type="button" onClick={this.props.toggleMode}> Go back </button>
+					<div className="form-group">
+						<div className="col-sm-offset-2 col-sm-10">
+							<button className="btn btn-default" type="button" onClick={this.props.toggleMode}> Go back </button>
+						</div>
 					</div>
-				</div>
-			</form>
-    </div>
-      );
+				</form>
+			</div>
+		);
     }
 }

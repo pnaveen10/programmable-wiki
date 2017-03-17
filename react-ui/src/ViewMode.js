@@ -32,11 +32,11 @@ export default class ViewMode extends React.Component {
       return (
         <div className = "medium-6">
             <label> Title </label>
-            <textarea rows="4" cols="50">
+            <div>
                 Code goes here
-            </textarea>
-            <button> EDIT </button>
-            <button> Add page </button>
+            </div>
+            <button className="btn" type="button" onClick={this.props.toggleMode}> Edit </button>
+            <button className="btn" type="button"> Add page </button>
         </div>
       );
     }

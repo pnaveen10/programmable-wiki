@@ -51,6 +51,9 @@ export default class EditMode extends React.Component {
                     <option value="text">Plain text</option>
                 </select>
             </div>
+            <div className="form-group">
+                <button className="btn" type="button" onClick={this.props.toggleMode}> Go back </button>
+            </div>
         </div>
       );
     }

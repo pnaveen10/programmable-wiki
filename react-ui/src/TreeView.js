@@ -8,7 +8,7 @@ decorators.Header = (props) => {
     return (
         <div style={style.base}>
             <div style={style.title}>
-				<Link to={props.node.id}>{props.node.name}</Link>
+				<Link to={"page/" + props.node.id}>{props.node.name}</Link>
             </div>
         </div>
     );

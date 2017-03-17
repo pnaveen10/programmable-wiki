@@ -58,5 +58,9 @@ a:hover {
 	padding-left: 20px;
 }
 .buttongroup {
-	padding: 0px 5px;
+	margin: 15px 5px 0px 5px;
+	display: inline-block;
+}
+.rendercode {
+	margin: 10px 0px;
 }

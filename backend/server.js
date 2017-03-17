@@ -9,6 +9,9 @@ app.use(bodyParser.json());
 var path = require('path');
 var exec = require('child_process').exec;
 
+var morgan = require('morgan')
+app.use(morgan('dev'));
+
 app.post("/compileCode", (req, res) => {
 	console.log(req)
 	var tempFileName = "tempPythonFile" + (new Date).getTime() + ".py";
@@ -86,5 +89,84 @@ app.get('/getDb', (req, res) => {
 			res.send(result.rows)
 		})
 	})
+
+})
+
+app.get('/view_page/:id', function(req, res) {
+    var id = req.params.id;
+    var client = new pg.Client(conString);
+	client.connect(function(err) {
+		if(err) {
+			console.log(err);
+		}
+		console.log("coming 1")
+		var sql_query = "select code from wiki_master where id = '" +id+"'"
+		client.query(sql_query, function(err, result) {
+			if(err){
+				console.log(err);
+				res.end("error on fetching code for the particular id")
+			}
+			var code_to_be = result.rows[0].code;
+			console.log("code_to_be" + code_to_be)
+			var tempFileName = "tempPythonFile" + (new Date).getTime() + ".py";
+			fs.writeFile(tempFileName, code_to_be, function(err) {
+				if(err) {
+					console.log(err);
+					res.render('error', {error: err});
+				}
+			})
+
+			var child = exec("py " + tempFileName, function(error, stdout, stderr) {
+				console.log(stdout);
+				console.log(stderr);
+				res.end(stdout);
+			});
+		})
+
+	})
+});
+
+app.post('/dummy' (req,res) => {
+	res.end("success")
+})
+
+
+app.post('/save_or_edit', (req, res) => {
+	var id = req.body.id;
+	if(id) {
+		var client = new pg.Client(conString);
+		client.connect(function(err) {
+			if(err) {
+				console.log(err);
+			}
+			var sql_query = "update wiki_master set title = '" +req.body.form_data.title+"', description = '" +req.body.form_data.desc+"', code = '" +req.body.form_data.code+"', type = '" +req.body.form_data.type+"'"
+			console.log(sql_query)
+			client.query(sql_query, function(err, result) {
+				if(err){
+					 console.log(err);
+					  res.end("query failed");
+				}
+				 res.end("successfully edited")
+			})
+		})
+	}
+	else
+	{
+		var client = new pg.Client(conString);
+		client.connect(function(err) {
+			if(err) {
+				console.log(err);
+			}
+			var sql_query = "insert into wiki_master(title, description, code, type) values ('" +req.body.form_data.title+"','"+req.body.form_data.desc+"', '"+req.body.form_data.code+"', '"+req.body.form_data.type+"')"
+			console.log(sql_query)
+			client.query(sql_query, function(err, result) {
+				if(err){
+					 console.log(err);
+					  res.end("query failed");
+				}
+				 res.end("successfully added")
+			})
+		})
+	}
 
 })

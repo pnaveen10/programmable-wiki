@@ -25,18 +25,18 @@ pool.connect(function(err, client, done) {
 	}
 })*/
 
-var conString = "postgres://YourUsername:YourPassword@localhost/DatabaseName";
-
-var client = new pg.Client(conString);
-client.connect(function(err) {
-	if(err) {
-		console.log(err);
-	}
-	client.query('Select * from "TableName"', function(err, result) {
-		if(err) console.log(err);
-		console.log(result.rows);
-	})
-})
+// var conString = "postgres://YourUsername:YourPassword@localhost/DatabaseName";
+//
+// var client = new pg.Client(conString);
+// client.connect(function(err) {
+// 	if(err) {
+// 		console.log(err);
+// 	}
+// 	client.query('Select * from "TableName"', function(err, result) {
+// 		if(err) console.log(err);
+// 		console.log(result.rows);
+// 	})
+// })
 
 app.listen(3001, function() {
   console.log('listening on 3001')

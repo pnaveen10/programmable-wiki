@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
+import brace from 'brace';
+import AceEditor from 'react-ace';
 import './App.css';
 import $ from "jquery";
+
+import 'brace/mode/python';
+import 'brace/mode/html';
+import 'brace/mode/markdown';
+import 'brace/mode/python';	
+import 'brace/theme/terminal';
+
+function onChange(newValue) {
+  console.log('change',newValue);
+}
 
 export default class EditMode extends React.Component {
 
@@ -38,6 +50,9 @@ export default class EditMode extends React.Component {
         this.setState({editContent : newLocalState});
     }
     render() {
+		var style = {
+			width: "100%"
+		};
       return (
         <div>
 			<form className="form-horizontal">
@@ -64,7 +79,7 @@ export default class EditMode extends React.Component {
 				<div className="form-group">
 					<label className="control-label col-sm-2">Code</label>
 					<div className="col-sm-10">
-						<textarea className="form-control"  name="code" rows="10" cols="100" value={this.state.editContent.code} onChange={this.updateState}></textarea>
+						<AceEditor mode="python" name="code" theme="terminal" style={style} name="UNIQUE_ID_OF_DIV" editorProps={{$blockScrolling: true}} />
 					</div>
 				</div>
 				<div className="form-group">

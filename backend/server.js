@@ -46,18 +46,8 @@ pool.connect(function(err, client, done) {
 	}
 })*/
 
-var conString = "postgres://YourUsername:YourPassword$1@localhost/DatabaseName";
 
-var client = new pg.Client(conString);
-client.connect(function(err) {
-	if(err) {
-		console.log(err);
-	}
-	client.query('Select * from "TableName"', function(err, result) {
-		if(err) console.log(err);
-		console.log(result.rows);
-	})
-})
+var conString = "postgres://postgres:root@localhost/wiki";
 
 app.listen(3001, function() {
   console.log('listening on 3001')
@@ -74,17 +64,62 @@ app.use('/dist', express.static(path.resolve(__dirname + '\\..\\react-ui\\dist')
 app.get('/', (req, res) => {
 	res.sendFile(path.resolve(__dirname + '\\..\\react-ui\\dist\\devindex.html'));
 })
-
-var client = new pg.Client(conString);
+	
 app.get('/getDb', (req, res) => {
+	var client = new pg.Client(conString);
 	client.connect(function(err) {
 		if(err) {
 			console.log(err);
 		}
-		client.query('select * from "ORMSummaryContents"', function(err, result) {
+		client.query('select * from "wiki_master"', function(err, result) {
 			if(err) console.log(err);
-			res.send(result.rows)
+			 res.send(result)
+			 client.end();
 		})
+
 	})
 
 })
+
+
+app.post('/save_or_edit', (req, res) => {
+	var id = req.body.id;
+	if(id) {
+		var client = new pg.Client(conString);
+		client.connect(function(err) {
+			if(err) {
+				console.log(err);
+			}
+			var sql_query = "update wiki_master set title = '" +req.body.form_data.title+"', description = '" +req.body.form_data.desc+"', code = '" +req.body.form_data.code+"', type = '" +req.body.form_data.type+"'"
+			console.log(sql_query)
+			client.query(sql_query, function(err, result) {
+				if(err){
+					 console.log(err);
+					  res.end("query failed");
+				}
+				 res.end("success")
+			})
+		client.end();
+		})
+	}
+	else
+	{
+		var client = new pg.Client(conString);
+		client.connect(function(err) {
+			if(err) {
+				console.log(err);
+			}
+			var sql_query = "insert into wiki_master(title, description, code, type) values ('" +req.body.form_data.title+"','"+req.body.form_data.desc+"', '"+req.body.form_data.code+"', '"+req.body.form_data.type+"')"
+			console.log(sql_query)
+			client.query(sql_query, function(err, result) {
+				if(err){
+					 console.log(err);
+					  res.end("query failed");
+				}
+				 res.end("success")
+			})
+		})
+	}
+
+})
+

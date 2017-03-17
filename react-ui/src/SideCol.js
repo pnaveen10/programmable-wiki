@@ -4,7 +4,68 @@ import './App.css';
 import $ from "jquery";
 import { Link } from 'react-router';
 
+const data = {
+    name: 'root',
+	id: '42',
+    children: [
+        {
+            name: 'parent with child',
+			id: 'test',
+            children: [
+                { name: 'child1' },
+                { name: 'child2' }
+            ]
+        },
+        {
+            name: 'parent with out child'
+        },
+        {
+            name: 'parent with child',
+            children: [
+                {
+                    name: 'child with child',
+                    children: [
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
 export default class SideCol extends React.Component {
+	constructor(props) {
+        super(props);
+        this.state = {
+			data : {
+				name: 'loading...'
+			}
+        }
+        this.getInfo = this.getInfo.bind(this);
+    }
+	componentDidMount() {
+		this.getInfo();
+	}
+	getInfo() {
+        var root = 'http://10.29.244.95:3001';
+//		setTimeout(function() {
+//					this.setState({data: {name:'loaded'}});
+//				}.bind(this),
+//				2000
+//			);
+//		$.ajax({
+//			url: root + '/edit_page/',
+//			method: 'GET',
+//			success: function(data) {
+//				setTimeout(function() {
+//						//this.setState({data : JSON.parse(data)})
+//					},
+//					2000
+//				).bind(this);
+//			}.bind(this)
+//		});
+    }
 	render() {
 		return (
 			<div className="col-sm-3 sidebar textleft" style={this.props.style}>
@@ -17,14 +78,7 @@ export default class SideCol extends React.Component {
 						</button>
 					</span>
 				</div>
-				<ul className="nav nav-pills nav-stacked textleft">
-					<li className="active"><Link to="page/42">Page 1</Link></li>
-					<li><Link to="test">Test</Link></li>
-					<li><a href="#section2">Page 2</a></li>
-					<li><a href="#section3">Page 3</a></li>
-					<li><a href="#section3">Page 4</a></li>
-				</ul>
-				<TreeView/>
+				<TreeView data={this.state.data}/>
 			</div>
 		)
 	}

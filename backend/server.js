@@ -11,6 +11,7 @@ var exec = require('child_process').exec;
 
 var morgan = require('morgan')
 app.use(morgan('dev'));
+var Promise = require('promise');
 
 app.post("/compileCode", (req, res) => {
 	console.log(req)
@@ -96,7 +97,13 @@ app.get('/get_details/:id', function(req,res){
 			if(err){
 				console.log(err);
 			}
-			res.send(JSON.stringify(result.rows[0]))
+			if(result && result.rows && result.rows[0]){
+				res.send(JSON.stringify(result.rows[0]))
+			}
+			else {
+				res.send({})
+			}
+			client.end();
 		})
 	})
 })
@@ -114,40 +121,62 @@ app.get('/view_page/:id', function(req, res) {
 				console.log(err);
 				res.end("error on fetching code for the particular id")
 			}
-			var code_to_be = result.rows[0].code;
-			var type_to_be = result.rows[0].type;
-			if(type_to_be == "python"){
-				var tempFileName = "tempPythonFile" + (new Date).getTime() + ".py";
-				fs.writeFile(tempFileName, code_to_be, function(err) {
-					if(err) {
-						console.log(err);
-						res.render('error', {error: err});
-					}
-				})
-
-				var child = exec("py " + tempFileName, function(error, stdout, stderr) {
-					console.log(stdout);
-					console.log(stderr);
-					res.end(stdout);
-				});
+			if(!(result && result.rows && result.rows[0])) {
+				res.end("Page Not Found");
 			}
-			else if (type_to_be == "perl"){
-				var tempFileName = "tempPerlFile" + (new Date).getTime() + ".pl";
-				fs.writeFile(tempFileName, code_to_be, function(err) {
-					if(err) {
-						console.log(err);
-						res.render('error', {error: err});
-					}
-				})
+			else{
+				app.set('view engine', 'jade');
+				var code_to_be = result.rows[0].code;
+				var s = code_to_be.replace(/UTF123/g,"'");
+				var type_to_be = result.rows[0].type;
+				if(type_to_be == "python"){
+					var tempFileName = "tempPythonFile" + (new Date).getTime() + ".py";
+					fs.writeFile(tempFileName, s, function(err) {
+						if(err) {
+							console.log(error);
+							res.render('error', {error: err});
+						}
+					})
 
-				var child = exec("perl " + tempFileName, function(error, stdout, stderr) {
-					console.log(stdout);
-					console.log(stderr);
-					res.end(stdout);
-				});
-			}
-			else if (type_to_be == "text" || "html"){
-				res.end(code_to_be);
+					var child = exec("py " + tempFileName, function(error, stdout, stderr) {
+						if(error) {
+							console.log(err);
+							res.render('error', {error: error});
+						}
+						console.log(stdout);
+						console.log(stderr);
+						if(stdout){
+							res.end(stdout);
+						}
+						if(stderr) {
+							res.end(stderr);
+						}
+
+					});
+				}
+				else if (type_to_be == "perl"){
+					var tempFileName = "tempPerlFile" + (new Date).getTime() + ".pl";
+					fs.writeFile(tempFileName, s, function(err) {
+						if(err) {
+							console.log(err);
+							res.render('error', {error: err});
+						}
+					})
+
+					var child = exec("perl " + tempFileName, function(error, stdout, stderr) {
+						console.log(stdout);
+						console.log(stderr);
+						if(stdout){
+							res.end(stdout);
+						}
+						if(stderr) {
+							res.end(stderr);
+						}
+					});
+				}
+				else if (type_to_be == "text" || "html"){
+					res.end(s);
+				}
 			}
 
 		})
@@ -167,14 +196,52 @@ app.get('/edit_page/:id', function(req, res) {
 			if(err){
 				 console.log(err);
 			}
-			res.end(JSON.stringify(result.rows[0]))
+			var rep = result.rows[0];
+			code1 = rep.code.replace(/UTF123/g,"'")
+			rep.code = code1;
+			res.end(JSON.stringify(rep))
 		})
 	})
 
 })
 
 
+app.get('/get_all_children', (req, res) => {
+	var client = new pg.Client(conString);
+	client.connect(function(err) {
+		if(err) {
+			console.log(err);
+		}
+		client.query('select title as name, description, parentid, id from wiki_master', function(err, result) {
+			if(err){
+				 console.log(err);
+			}
+			var all_pages = result.rows
+			function fun(id){
+				var array = [];
+				for(var i = 0; i < all_pages.length; i++){
+					console.log("Abd");
+					var node = all_pages[i]
+					console.log(node.parentid + " " + id)
+					if(node.parentid === id){
+						var childrens = fun(node.id);
+						if(childrens.length > 0 ) {
+							node.children =  childrens;
 
+						}
+						node.id = ""+node.id;
+						array.push(node);
+					}
+				}
+				console.log(array)
+				return array;
+			}
+			res.send(fun(69))
+			// res.send(result.rows)
+		})
+	})
+
+})
 
 app.options('/save_or_edit', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -193,14 +260,24 @@ app.post('/save_or_edit', (req, res) => {
 			if(err) {
 				console.log(err);
 			}
-			var sql_query = "update wiki_master set title = '" +req.body.form_data.title+"', description = '" +req.body.form_data.desc+"', code = '" +req.body.form_data.code+"', type = '" +req.body.form_data.type+"'"
+			var coding = req.body.form_data.code;
+			// coding.replace(//, '');
+			var s = coding.replace(/'/g,"UTF123");
+				
+			// console.log(coding);
+			var sql_query = "update wiki_master set title = '" +req.body.form_data.title+"', description = '" +req.body.form_data.desc+"', code = '" +s+"', type = '" +req.body.form_data.type+"' where id= '"+id+"' RETURNING id"
 			console.log(sql_query)
 			client.query(sql_query, function(err, result) {
 				if(err){
 					 console.log(err);
-					  res.end("query failed");
+					  res.end("Compilation failed");
 				}
-				 res.end("successfully edited")
+				if(result && result.rows[0]) {
+				 res.end(JSON.stringify({"id" : JSON.parse(result.rows[0].id)}))
+				}
+				else {
+					res.end("Compilation failed");
+				}
 			})
 		})
 	}
@@ -211,16 +288,21 @@ app.post('/save_or_edit', (req, res) => {
 			if(err) {
 				console.log(err);
 			}
-			var sql_query = "insert into wiki_master(title, description, code, type) values ('" +req.body.form_data.title+"','"+req.body.form_data.desc+"', '"+req.body.form_data.code+"', '"+req.body.form_data.type+"') RETURNING id"
+			var coding = req.body.form_data.code;
+			// coding.replace(/\'/, 'UTF1234');
+			// console.log(coding);
+
+			var s = coding.replace(/'/g,"UTF123");
+			
+			var sql_query = "insert into wiki_master(title, description, code, type, parentid) values ('" +req.body.form_data.title+"','"+req.body.form_data.desc+"', '"+s+"', '"+req.body.form_data.type+"', '"+req.body.parent_id+"') RETURNING id"
 			console.log(sql_query)
 			client.query(sql_query, function(err, result) {
 				if(err){
 					 console.log(err);
 					  res.end("query failed");
 				}
-				res.end("successfully added and your id is " + result.rows[0].id)
+				res.end(JSON.stringify({"id" : JSON.parse(result.rows[0].id)}))
 			})
 		})
 	}
-
 })
